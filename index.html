@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Felix · بطاقة تعريفية عصرية متحركة</title>
+    <!-- خط Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Cairo', sans-serif;
+            background: #081620;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem;
+            position: relative;
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        /* خلفية متحركة متطورة - طبقات متعددة */
+        .bg-advanced {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        /* طبقة ضباب متحرك */
+        .bg-advanced .layer-1 {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle at 20% 30%, rgba(0, 160, 255, 0.25) 0%, transparent 30%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 200, 255, 0.2) 0%, transparent 40%);
+            animation: rotateSlow 60s infinite linear;
+            opacity: 0.7;
+        }
+
+        .bg-advanced .layer-2 {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 10% 50%, rgba(0, 100, 200, 0.2) 0%, transparent 35%),
+                        radial-gradient(circle at 90% 20%, rgba(0, 150, 255, 0.15) 0%, transparent 45%);
+            animation: rotateReverse 70s infinite linear;
+            opacity: 0.6;
+        }
+
+        /* جسيمات صغيرة متلألئة */
+        .particle-field {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00aaff;
+            animation: particleMove 15s infinite alternate;
+        }
+
+        /* توليد 20 جسيم بمواقع عشوائية */
+        .particle:nth-child(1) { top: 15%; left: 10%; animation-duration: 14s; }
+        .particle:nth-child(2) { top: 85%; left: 70%; animation-duration: 18s; width: 5px; height: 5px; }
+        .particle:nth-child(3) { top: 40%; left: 30%; animation-duration: 22s; }
+        .particle:nth-child(4) { top: 70%; left: 85%; animation-duration: 16s; width: 4px; height: 4px; }
+        .particle:nth-child(5) { top: 20%; left: 95%; animation-duration: 20s; }
+        .particle:nth-child(6) { top: 55%; left: 15%; animation-duration: 19s; }
+        .particle:nth-child(7) { top: 90%; left: 40%; animation-duration: 17s; width: 3px; height: 3px; }
+        .particle:nth-child(8) { top: 10%; left: 60%; animation-duration: 23s; }
+        .particle:nth-child(9) { top: 65%; left: 50%; animation-duration: 15s; width: 6px; height: 6px; }
+        .particle:nth-child(10) { top: 30%; left: 80%; animation-duration: 21s; }
+        .particle:nth-child(11) { top: 45%; left: 20%; animation-duration: 18s; }
+        .particle:nth-child(12) { top: 75%; left: 95%; animation-duration: 16s; }
+        .particle:nth-child(13) { top: 5%; left: 40%; animation-duration: 24s; }
+        .particle:nth-child(14) { top: 60%; left: 65%; animation-duration: 19s; }
+        .particle:nth-child(15) { top: 80%; left: 15%; animation-duration: 22s; }
+
+        @keyframes rotateSlow {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1.1); }
+        }
+
+        @keyframes rotateReverse {
+            from { transform: rotate(360deg) scale(1.1); }
+            to { transform: rotate(0deg) scale(1); }
+        }
+
+        @keyframes particleMove {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(40px, -30px) scale(1.8); opacity: 0.9; }
+            100% { transform: translate(-20px, 20px) scale(1); opacity: 0.4; }
+        }
+
+        /* البطاقة الرئيسية - زجاجية مع حواف متوهجة */
+        .card {
+            position: relative;
+            z-index: 30;
+            max-width: 750px;
+            width: 100%;
+            background: rgba(12, 30, 45, 0.35);
+            backdrop-filter: blur(18px) saturate(200%);
+            -webkit-backdrop-filter: blur(18px) saturate(200%);
+            border-radius: 2.8rem;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8),
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+                        0 0 60px rgba(0, 180, 255, 0.3);
+            padding: 2.2rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s;
+            animation: borderPulse 6s infinite alternate;
+        }
+
+        @keyframes borderPulse {
+            0% { box-shadow: 0 30px 60px -12px black, 0 0 0 1px rgba(255,255,255,0.15) inset, 0 0 40px rgba(0,160,255,0.3); }
+            100% { box-shadow: 0 40px 80px -8px black, 0 0 0 2px rgba(255,255,255,0.3) inset, 0 0 90px rgba(0,200,255,0.6); }
+        }
+
+        /* تحسينات للجوال */
+        @media (max-width: 480px) {
+            .card {
+                padding: 1.5rem 1.2rem;
+                border-radius: 2rem;
+            }
+        }
+
+        /* عنوان مع أيقونة متحركة */
+        h1 {
+            font-size: clamp(2rem, 7vw, 3.2rem);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 25px #0099ff, 0 0 50px #0077ff;
+            margin-bottom: 0.2rem;
+            flex-wrap: wrap;
+        }
+
+        h1 i {
+            font-size: clamp(2.2rem, 8vw, 3.5rem);
+            color: #c1e4ff;
+            filter: drop-shadow(0 0 20px #00a6ff);
+            animation: waveAnim 2.5s infinite ease-in-out;
+            transform-origin: bottom center;
+        }
+
+        @keyframes waveAnim {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(20deg); }
+            75% { transform: rotate(-10deg); }
+        }
+
+        .greeting {
+            font-size: clamp(1.2rem, 4.5vw, 1.9rem);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #ddf0ff;
+            text-shadow: 0 0 15px #0077b3;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+
+        .greeting i {
+            animation: starTwinkle 3s infinite;
+        }
+
+        @keyframes starTwinkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.3); text-shadow: 0 0 30px gold; }
+        }
+
+        /* تذكير الصلاة */
+        .salah-block {
+            background: rgba(0, 30, 50, 0.5);
+            backdrop-filter: blur(15px);
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: clamp(1.1rem, 3.8vw, 1.6rem);
+            font-weight: 700;
+            margin: 1.2rem 0 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 25px #00b7ff, 0 15px 25px -10px black;
+            color: #fff7e6;
+            flex-wrap: wrap;
+            animation: glowPulse 4s infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 20px #00b7ff, 0 15px 25px -10px black; }
+            100% { box-shadow: 0 0 50px #4db8ff, 0 20px 35px -8px black; }
+        }
+
+        .salah-block i {
+            color: #ffd966;
+            font-size: clamp(1.4rem, 4.5vw, 2rem);
+            filter: drop-shadow(0 0 8px gold);
+        }
+
+        .salah-block i:last-child {
+            animation: featherSpin 8s infinite linear;
+        }
+
+        @keyframes featherSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* عنوان كل قسم */
+        .section-title {
+            font-size: clamp(1.3rem, 4.5vw, 1.7rem);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin: 1.8rem 0 1rem;
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            padding-bottom: 0.3rem;
+            color: white;
+            text-shadow: 0 0 15px #00b7ff;
+        }
+
+        .section-title i {
+            font-size: clamp(1.6rem, 5vw, 2.1rem);
+            color: #8ec9ff;
+            animation: slideIcon 3s infinite alternate;
+        }
+
+        @keyframes slideIcon {
+            from { transform: translateX(0); }
+            to { transform: translateX(-5px); }
+        }
+
+        /* أزرار الروابط - محسنة للمس */
+        .link-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .link-card {
+            display: block;
+            text-decoration: none;
+            background: rgba(8, 40, 60, 0.55);
+            backdrop-filter: blur(15px);
+            padding: 0.9rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -8px #000000cc, 0 0 15px rgba(0, 200, 255, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* تأثير تموج عند النقر (للجوال) */
+        .link-card:active {
+            transform: scale(0.98);
+            background: rgba(0, 90, 130, 0.7);
+            box-shadow: 0 0 35px #00aaff;
+        }
+
+        .link-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.7);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .link-card:focus:not(:active)::after {
+            animation: ripple 0.6s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        .link-card:hover {
+            background: rgba(0, 80, 120, 0.7);
+            border-color: #aae0ff;
+            box-shadow: 0 15px 35px -5px black, 0 0 40px #00ccff;
+            transform: translateX(-5px) scale(1.01);
+        }
+
+        .link-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .link-content i {
+            font-size: clamp(1.8rem, 5.5vw, 2.4rem);
+            color: #b2e4ff;
+            width: 2.3rem;
+            text-align: center;
+            filter: drop-shadow(0 0 12px #00a3ff);
+            animation: iconSoftPulse 3s infinite alternate;
+        }
+
+        @keyframes iconSoftPulse {
+            from { filter: drop-shadow(0 0 8px #00a3ff); transform: scale(1); }
+            to { filter: drop-shadow(0 0 22px #00ddff); transform: scale(1.03); }
+        }
+
+        .link-text {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px; /* لتجنب التكسير على الشاشات الصغيرة */
+        }
+
+        .link-label {
+            font-size: clamp(0.9rem, 3.2vw, 1.2rem);
+            font-weight: 400;
+            opacity: 0.9;
+            line-height: 1.3;
+        }
+
+        .link-url {
+            font-size: clamp(1rem, 3.8vw, 1.4rem);
+            font-weight: 700;
+            color: white;
+            direction: ltr;
+            text-align: left;
+            letter-spacing: 0.3px;
+            text-shadow: 0 0 12px #0099ff;
+            word-break: break-all;
+        }
+
+        /* صندوق المعلومات - محسن للجوال */
+        .info-panel {
+            background: rgba(0, 30, 45, 0.55);
+            backdrop-filter: blur(20px);
+            padding: 1.5rem 1.5rem;
+            border-radius: 2.2rem;
+            margin-top: 2.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 50px rgba(255, 255, 255, 0.1), 0 25px 35px -15px black, 0 0 30px #00b3ff;
+            animation: panelBreathing 5s infinite alternate;
+        }
+
+        @keyframes panelBreathing {
+            0% { box-shadow: inset 0 0 40px rgba(255,255,255,0.1), 0 25px 35px -15px black, 0 0 30px #00b3ff; }
+            100% { box-shadow: inset 0 0 70px rgba(255,255,255,0.2), 0 30px 45px -10px black, 0 0 60px #4db8ff; }
+        }
+
+        @media (max-width: 400px) {
+            .info-panel {
+                padding: 1.2rem 1rem;
+            }
+        }
+
+        .info-panel p {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            font-size: clamp(0.95rem, 3.2vw, 1.15rem);
+            color: #e4f2ff;
+            text-shadow: 0 1px 5px #00000080;
+            line-height: 1.5;
+        }
+
+        .info-panel i {
+            font-size: clamp(1.5rem, 4.8vw, 2.1rem);
+            color: #99d6ff;
+            min-width: 2rem;
+            text-align: center;
+            filter: drop-shadow(0 0 10px #0088ff);
+            animation: glowMove 3s infinite alternate;
+        }
+
+        @keyframes glowMove {
+            from { filter: drop-shadow(0 0 5px #0088ff); transform: translateY(0); }
+            to { filter: drop-shadow(0 0 20px #00ccff); transform: translateY(-3px); }
+        }
+
+        .highlight {
+            background: #ffffff;
+            color: #003153;
+            padding: 0.1rem 1rem;
+            border-radius: 40px;
+            font-weight: 800;
+            display: inline-block;
+            box-shadow: 0 4px 12px #000000b3, 0 0 25px #00ddff;
+            animation: highlightGlow 2s infinite alternate;
+        }
+
+        @keyframes highlightGlow {
+            from { box-shadow: 0 4px 12px #000000b3, 0 0 20px #00ddff; }
+            to { box-shadow: 0 6px 18px #000000, 0 0 45px #4da6ff; }
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff80, #ffffff, #ffffff80, transparent);
+            margin: 2rem 0 1rem;
+            animation: shine 4s infinite;
+            background-size: 200% 100%;
+        }
+
+        @keyframes shine {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            font-size: clamp(0.85rem, 3vw, 1.1rem);
+            color: #c6e2ff;
+            text-shadow: 0 0 12px #0077ff;
+            flex-wrap: wrap;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer i {
+            animation: crownFloat 3s infinite;
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); color: #ffbc6e; }
+        }
+
+        /* تحسين المسافات للجوال الصغير */
+        @media (max-width: 350px) {
+            .link-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .link-content i {
+                margin-bottom: 0.2rem;
+            }
+            .salah-block {
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        /* إخفاء أي أيقونة نصر متبقية */
+        .fa-hand-peace {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- خلفية متطورة متعددة الطبقات -->
+    <div class="bg-advanced">
+        <div class="layer-1"></div>
+        <div class="layer-2"></div>
+        <div class="particle-field">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+    </div>
+
+    <main class="card">
+        <!-- العنوان مع يد تلوح -->
+        <h1>
+            <i class="fa-regular fa-hand-wave"></i>
+            مرحباً بك، أنا <span style="color:#9fd3ff;">Felix</span>
+        </h1>
+        <div class="greeting">
+            <i class="fa-regular fa-star" style="color: #ffd966;"></i>
+            كيف حالك؟ أتمنى أن تكون بأفضل حال.
+        </div>
+
+        <!-- تذكير الصلاة -->
+        <div class="salah-block">
+            <i class="fa-solid fa-mosque"></i>
+            <span>لا تنسَ الصلاة على النبي</span>
+            <i class="fa-solid fa-feather" style="color:gold;"></i>
+            ﷺ
+        </div>
+
+        <!-- قسم التواصل -->
+        <div class="section-title">
+            <i class="fa-regular fa-paper-plane"></i>
+            للتواصل أو الاستفسار
+        </div>
+
+        <!-- روابط قابلة للنقر بالكامل -->
+        <div class="link-grid">
+            <a href="https://t.me/felixsupportbot" target="_blank" rel="noopener" class="link-card">
+                <div class="link-content">
+                    <i class="fa-brands fa-telegram"></i>
+                    <div class="link-text">
+                        <span class="link-label">بوت التواصل</span>
+                        <span class="link-url">@felixsupportbot</span>
+                    </div>
+                </div>
+            </a>
+            <a href="https://t.me/MinecraftPE_4" target="_blank" rel="noopener" class="link-card">
+                <div class="link-content">
+                    <i class="fa-brands fa-telegram-plane"></i>
+                    <div class="link-text">
+                        <span class="link-label">قناتي ~ Minecraft download</span>
+                        <span class="link-url">@MinecraftPE_4</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- صندوق المعلومات مع النص المعدل حسب الطلب الأخير -->
+        <div class="info-panel">
+            <p>
+                <i class="fa-regular fa-message"></i>
+                <span>إذا واجهتك أي مشكلة بخصوص منشوراتي، سواء تعلقت بماين كرافت أو بغيرها <span class="highlight">رجاء تواصل معي</span>، أما بخصوص منشورات <span class="highlight">لست الناشر</span>. يُرجى التوجُّه إلى المصدر الأصلي.</span>
+            </p>
+            <p>
+                <i class="fa-regular fa-camera"></i>
+                <span>أما بخصوص <strong>موقع الإضافات (Minecraft FX)</strong>، فأرسل لي لقطة شاشة أو انسخ النص الذي يظهر لك — كلا الطريقتين مقبولة.</span>
+            </p>
+            <p style="margin-bottom:0;">
+                <i class="fa-regular fa-compass"></i>
+                <span>أنا هنا لأوجّهك، لكن الحلول تكون عند الناشر الأصلي.</span>
+            </p>
+        </div>
+
+        <hr>
+        <div class="footer">
+            <i class="fa-regular fa-crown" style="color: #ffbc6e;"></i>
+            <span>Felix — @B_BQ3.</span>
+        </div>
+    </main>
+</body>
+</html>
